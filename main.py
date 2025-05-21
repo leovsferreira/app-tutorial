@@ -1,27 +1,33 @@
+import sys
+import os
+# Add YOLOv5 to path
+sys.path.append('/app/yolov5')
+
 import torch
 import cv2
 import json
+import numpy as np
 
 from waggle.plugin import Plugin
 from waggle.data.vision import Camera
 
-
 def detect_objects(image, model):
-    # Run YOLOv8 inference on the image
+    # Convert image to format expected by YOLOv5
     results = model(image)
     
     # Get detected objects
     detections = []
-    for pred in results.pred[0]:
-        x1, y1, x2, y2, conf, cls = pred.tolist()
-        cls = int(cls)
-        cls_name = model.names[cls]
-        
-        detections.append({
-            "class": cls_name,
-            "confidence": conf,
-            "bbox": [x1, y1, x2, y2]
-        })
+    if len(results.pred[0]) > 0:
+        for *xyxy, conf, cls in results.pred[0].cpu().numpy():
+            x1, y1, x2, y2 = xyxy
+            cls = int(cls)
+            cls_name = model.names[cls]
+            
+            detections.append({
+                "class": cls_name,
+                "confidence": float(conf),
+                "bbox": [float(x1), float(y1), float(x2), float(y2)]
+            })
     
     return detections
 
