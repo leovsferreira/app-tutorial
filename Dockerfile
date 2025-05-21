@@ -1,4 +1,4 @@
-FROM waggle/plugin-base:1.1.1-ml
+FROM waggle/plugin-base:latest
 
 WORKDIR /app
 
