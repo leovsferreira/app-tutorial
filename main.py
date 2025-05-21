@@ -1,40 +1,39 @@
-import sys
-import os
-# Add YOLOv5 to path
-sys.path.append('/app/yolov5')
-
-import torch
-import cv2
-import json
 import numpy as np
+import cv2
+from ultralytics import YOLO
+import json
 
 from waggle.plugin import Plugin
 from waggle.data.vision import Camera
 
+
 def detect_objects(image, model):
-    # Convert image to format expected by YOLOv5
+    # Run YOLOv8 inference on the image
     results = model(image)
     
     # Get detected objects
     detections = []
-    if len(results.pred[0]) > 0:
-        for *xyxy, conf, cls in results.pred[0].cpu().numpy():
-            x1, y1, x2, y2 = xyxy
-            cls = int(cls)
+    for result in results:
+        boxes = result.boxes
+        for box in boxes:
+            # Get class, confidence, and box coordinates
+            cls = int(box.cls.item())
             cls_name = model.names[cls]
+            conf = box.conf.item()
+            x1, y1, x2, y2 = box.xyxy[0].tolist()
             
             detections.append({
                 "class": cls_name,
-                "confidence": float(conf),
-                "bbox": [float(x1), float(y1), float(x2), float(y2)]
+                "confidence": conf,
+                "bbox": [x1, y1, x2, y2]
             })
     
     return detections
 
 
 def main():
-    # Load YOLOv5 model
-    model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
+    # Load YOLOv8 model
+    model = YOLO("yolov8n.pt")
     
     with Plugin() as plugin:
         # Open camera and take snapshot
