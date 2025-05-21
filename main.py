@@ -23,7 +23,12 @@ def detect_objects(image, model):
 
 
 def main():
-    model = torch.hub.load('ultralytics/yolov5', 'yolov5n', pretrained=True)
+    model = torch.hub.load(
+        repo_or_dir='/app/yolov5',
+        model='yolov5n',
+        pretrained=True,
+        source='local'
+    )
     model.conf = 0.15
 
     with Plugin() as plugin:
