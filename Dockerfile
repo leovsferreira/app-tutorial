@@ -1,12 +1,11 @@
-FROM waggle/plugin-base:1.1.1-ml-torch1.9
+FROM waggle/plugin-base:1.1.1-ml
 
 WORKDIR /app
 
 COPY requirements.txt .
-RUN pip3 install --upgrade pip setuptools wheel \
- && pip3 install --no-cache-dir -r requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
 
-RUN pip3 install --no-cache-dir git+https://github.com/ultralytics/ultralytics.git
+RUN pip3 install --no-cache-dir git+https://github.com/ultralytics/yolov5.git@v6.0
 
 COPY . .
 
