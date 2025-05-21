@@ -1,0 +1,13 @@
+name: "my-amazing-app-name"
+version: "0.1.0"
+description: "My really amazing app!"
+keywords: ""
+authors: "My name"
+collaborators: ""
+funding: ""
+license: ""
+homepage: ""
+source:
+  architectures:
+    - "linux/amd64"
+    - "linux/arm64"
