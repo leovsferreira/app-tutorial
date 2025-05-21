@@ -37,7 +37,7 @@ def main():
     
     with Plugin() as plugin:
         # Open camera and take snapshot
-        with Camera() as camera:
+        with Camera("bottom_camera") as camera:
             snapshot = camera.snapshot()
         
         # Get timestamp for consistent timing across measurements
