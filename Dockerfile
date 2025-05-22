@@ -14,10 +14,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends git \
  && echo "Modifying YOLOv5 requirements for Python 3.6 compatibility..." \
  && sed -i '/gitpython/d' /app/yolov5/requirements.txt \
  && sed -i 's/^numpy>=1.23.5/numpy==1.19.5/' /app/yolov5/requirements.txt \
- && sed -i 's/^pillow>=10.3.0/pillow==9.5.0/' /app/yolov5/requirements.txt \
+ && sed -i 's/^pillow>=10.3.0/pillow==8.4.0/' /app/yolov5/requirements.txt \
  && sed -i 's/^matplotlib>=3.3.0/matplotlib==3.1.3/' /app/yolov5/requirements.txt \
  && sed -i -E 's/^(numpy\s*(>=|~=)\s*)[1-9][0-9]*\.[0-9]+\.[0-9]+(.*)$/numpy==1.19.5\3/' /app/yolov5/requirements.txt \
- && sed -i -E 's/^(pillow\s*(>=|~=)\s*)[1-9][0-9]*\.[0-9]+\.[0-9]+(.*)$/pillow==9.5.0\3/i' /app/yolov5/requirements.txt \
+ && sed -i -E 's/^(pillow\s*(>=|~=)\s*)[1-9][0-9]*\.[0-9]+\.[0-9]+(.*)$/pillow==8.4.0\3/i' /app/yolov5/requirements.txt \
  && sed -i -E 's/^(matplotlib\s*(>=|~=)\s*)[3-9]\.[0-9]+(\.[0-9]+)?(.*)$/matplotlib==3.1.3\4/' /app/yolov5/requirements.txt \
  && echo "--- Modified YOLOv5 requirements.txt (relevant lines): ---" \
  && grep -E "numpy|pillow|matplotlib" /app/yolov5/requirements.txt || echo "Relevant lines not found after modification." \
