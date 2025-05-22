@@ -1,3 +1,6 @@
+import os
+os.environ['CUDA_VISIBLE_DEVICES'] = ''
+
 import numpy as np
 import cv2
 import torch
@@ -7,7 +10,8 @@ from waggle.plugin import Plugin
 from waggle.data.vision import Camera
 
 def main():
-    model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)
+    device = 'cpu'
+    model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True, device=device)
     model.conf = 0.2
     model.iou = 0.45 
     
